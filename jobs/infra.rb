@@ -13,6 +13,7 @@ SCHEDULER.every '5s' do
 
   numberS3 = awsInfo.getNumberBucketS3
 
+  consulInfo = ConsulInfo.new()
 
   send_event('welcome', {text: allS3 })
 
