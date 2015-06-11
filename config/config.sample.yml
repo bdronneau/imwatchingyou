@@ -1,0 +1,10 @@
+github:
+  user:
+  default:
+aws:
+  region: eu-west-1
+  access:
+  secret:
+consul:
+  servers:
+    - http://host:port
