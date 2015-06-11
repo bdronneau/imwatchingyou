@@ -29,7 +29,7 @@ SCHEDULER.every '5s' do
     logger.info(arrayAlertDisplay)
     send_event('alerts', {title: 'Alarms', items: arrayAlertDisplay, status: 2})
   else
-    send_event('alerts', {title: 'Keep calm there is no alerts', items: [{label: '', value: ''}], status: 0})
+    send_event('alerts', {title: 'Keep calm there is no alerts', items: [], status: 0})
   end
 
   send_event('ec2number', { value: awsInfo.getNumberEc2, max: awsInfo.getEc2Limit })
