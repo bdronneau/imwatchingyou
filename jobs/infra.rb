@@ -1,7 +1,11 @@
 require 'pp'
+require 'logger'
+
+logger = Logger.new(STDOUT)
+logger.level = Logger::WARN
 
 SCHEDULER.every '5s' do
-  pp "Start Scheduler Consul"
+  logger.info("Start Scheduler Consul")
 
   awsInfo = AwsInfo.new()
 
@@ -22,7 +26,7 @@ SCHEDULER.every '5s' do
         arrayAlertDisplay.push({ label: hostAlert, value: checkAlert })
       end
     end
-    pp arrayAlertDisplay
+    logger.info(arrayAlertDisplay)
     send_event('alerts', {title: 'Alarms', items: arrayAlertDisplay, status: 2})
   else
     send_event('alerts', {title: 'Keep calm there is no alerts', items: [{label: '', value: ''}], status: 0})
@@ -30,5 +34,5 @@ SCHEDULER.every '5s' do
 
   send_event('ec2number', { value: awsInfo.getNumberEc2, max: awsInfo.getEc2Limit })
 
-  pp "End Scheduler Consul"
+  logger.info("End Scheduler Consul")
 end
