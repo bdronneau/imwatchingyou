@@ -1,0 +1,22 @@
+<script type='text/javascript'>
+  $(function() {
+    // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+    Dashing.gridsterLayout('[{"col":2,"row":1,"size_x":2,"size_y":3},{"col":1,"row":1,"size_x":1,"size_y":1}]')
+    Dashing.widget_base_dimensions = [370, 340]
+    Dashing.numColumns = 5
+  });
+</script>
+
+<% content_for :title do %>Infra Dashboard<% end %>
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="3">
+      <div data-id="alerts" data-view="Listdynamicbckg" data-title="Hello" data-text="Plop" data-moreinfo="Source : Consul"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="ec2number" data-view="Meter" data-title="Ec2" data-min="0" data-max="100"></div>
+    </li>
+
+  </ul>
+</div>
