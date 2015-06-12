@@ -57,3 +57,14 @@ SCHEDULER.every '1m' do
 
   logger.info('End Scheduler AWS')
 end
+
+# Scheduler for UptimeRobot graph
+SCHEDULER.every '5s' do
+  logger.info('Start Scheduler UptimeRobot')
+
+  uptimerobot = UptimeRobot.new
+
+  uptimerobot.all_graph
+
+  logger.info('End Scheduler UptimeRobot')
+end
