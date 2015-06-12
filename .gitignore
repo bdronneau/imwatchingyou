@@ -1,3 +1,4 @@
 .bundle
 config/config.yml
 history.yml
+Gemfile.lock
