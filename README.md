@@ -10,3 +10,21 @@ bundle install
 ```bash
 bundle exec dashing start
 ```
+
+## Dev
+### Installation des packets node
+```bash
+npm install
+```
+
+### Check syntax
+GULP permet de vérifier la syntaxe JS de tous les fichiers du projet (au delta des fichiers dans la variable filesJSToIgnore)
+
+```bash
+node_modules/gulp/bin/gulp.js
+```
+Un seul fichier :
+
+```bash
+node_modules/gulp/bin/gulp.js --js path_to_file
+```
