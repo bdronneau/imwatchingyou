@@ -19,30 +19,24 @@ SCHEDULER.every '5s' do
         host_alert =  alert['Node']
         check_alert = alert['CheckID']
         array_alert_display.push(
-          {
-            label: host_alert,
-            value: check_alert
-          }
+          label: host_alert,
+          value: check_alert
         )
       end
     end
     logger.info(array_alert_display)
     send_event(
       'alerts',
-      {
-        title: 'Alarms',
-        items: array_alert_display,
-        status: 2
-      }
+      title: 'Alarms',
+      items: array_alert_display,
+      status: 2
     )
   else
     send_event(
       'alerts',
-      {
-        title: 'Keep calm there is no alerts',
-        items: [],
-        status: 0
-      }
+      title: 'Keep calm there is no alerts',
+      items: [],
+      status: 0
     )
   end
 
@@ -57,10 +51,8 @@ SCHEDULER.every '1m' do
 
   send_event(
     'ec2number',
-    {
-      value: aws_info.number_ec2,
-      max: aws_info.ec2_limit
-    }
+    value: aws_info.number_ec2,
+    max: aws_info.ec2_limit
   )
 
   logger.info('End Scheduler AWS')
