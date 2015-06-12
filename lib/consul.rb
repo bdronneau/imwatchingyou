@@ -40,9 +40,9 @@ class ConsulInfo
   end
 
   def alarms(server, errors)
-    name_to_check = "#{server.last['protocol']}
-                     #{server.last['name']}:
-                     #{server.last['port']}"
+    # rubocop:disable Metrics/LineLength
+    name_to_check = "#{server.last['protocol']}#{server.last['name']}:#{server.last['port']}"
+    # rubocop:enable Metrics/LineLength
 
     response = JSON.parse(
       RestClient.get "#{name_to_check}/v1/health/state/critical"
