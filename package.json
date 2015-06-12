@@ -1,0 +1,41 @@
+{
+  "name": "imwatchingyou",
+  "version": "0.0.1",
+  "description": "Dashboard for multiples services",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/basti1dr/imwatchingyou.git"
+  },
+  "keywords": [
+    "dashing",
+    "ruby",
+    "dashboard",
+    "github",
+    "consul",
+    "aws"
+  ],
+  "author": "Bastien",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/basti1dr/imwatchingyou/issues"
+  },
+  "homepage": "https://github.com/basti1dr/imwatchingyou",
+  "engines": {
+    "node": ">=0.10.*"
+  },
+  "contributors": [
+    {
+      "name": "Bastien Dronneau",
+      "email": "basti1.dr@gmail.com"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-ignore": "^1.2.1",
+    "gulp-jscs": "^1.6.0",
+    "gulp-jshint": "^1.11.0",
+    "yargs": "^3.10.0"
+  }
+}
