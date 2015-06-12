@@ -2,9 +2,10 @@ require 'json'
 require 'aws-sdk'
 require 'pp'
 
+# This class get info from AWS with SDK v2
 class AwsInfo
   def initialize
-    @conf = ConfigApp.new()
+    @conf = ConfigApp.new
 
     @region = @conf.params['aws']['region']
     access = @conf.params['aws']['access']
@@ -12,61 +13,63 @@ class AwsInfo
     @credentials = Aws::Credentials.new(access, secret)
   end
 
-  def listS3
+  def list_s3
     s3 = Aws::S3::Client.new(region: @region, credentials: @credentials)
     s3.list_buckets
   end
 
-  def getNumberBucketS3
+  def number_bucket_s3
     s3 = Aws::S3::Client.new(region: @region, credentials: @credentials)
-    listBucket = s3.list_buckets
-    numberBucket = 0
-    listBucket.buckets.each do |object|
-        numberBucket = numberBucket + 1
+    number_bucket = 0
+    s3.list_buckets.buckets.each do
+      number_bucket += 1
     end
 
-    numberBucket
+    number_bucket
   end
 
-  def getNumberEc2
+  def number_ec2
     ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
-    listEc2 = ec2.describe_instances
-    numberEc2 = 0
-    listEc2.reservations.each do |reservation|
-      reservation.instances.each do |ec2Instance|
-        numberEc2 = numberEc2 + 1
+    list_ec2 = ec2.describe_instances
+    number_ec2 = 0
+    list_ec2.reservations.each do |reservation|
+      reservation.instances.each do
+        number_ec2 += 1
       end
     end
-    numberEc2
+    number_ec2
   end
 
-  def getNumBerEc2byStage(stage)
+  def number_ec2_by_stage(stage) # rubocop:disable Metrics/MethodLength
     ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
-    listEc2 = ec2.describe_instances(
-        filters: [{
-                      name: "tag-value",
-                      values: [stage]
-                  }]
+    list_ec2 = ec2.describe_instances(
+      filters: [
+        {
+          name: 'tag-value',
+          values: [stage]
+
+        }
+      ]
     )
 
-    numberEc2 = 0
-    listEc2.reservations.each do |reservation|
-      reservation.instances.each do |ec2Instance|
-        numberEc2 = numberEc2 + 1
+    number_ec2 = 0
+    list_ec2.reservations.each do |reservation|
+      reservation.instances.each do
+        number_ec2 += 1
       end
     end
-    numberEc2
+    number_ec2
   end
 
-  def getEc2Limit
+  def ec2_limit
     ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
-    maxEc2 = ''
+    max_ec2 = ''
     resp = ec2.describe_account_attributes(
-        attribute_names: ["max-instances"],
+      attribute_names: ['max-instances']
     )
     resp.account_attributes.each do |element|
-      maxEc2 = element.attribute_values.each.next.attribute_value
+      max_ec2 = element.attribute_values.each.next.attribute_value
     end
-    maxEc2
+    max_ec2
   end
 end
