@@ -21,7 +21,13 @@ class ConsulInfo
           errors.push(response)
         end
       else
-        errors.push([{"Node"=>"#{server.first}", "CheckID"=>"Unreachable Agent"}])
+        noDataFromAgent = [
+          {
+            'Node' => "#{server.first}",
+            'CheckID' => 'Unreachable Agent'
+          }
+        ]
+        errors.push(noDataFromAgent)
       end
     end
     errors
