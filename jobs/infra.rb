@@ -6,37 +6,62 @@ logger.level = Logger::WARN
 
 # Scheduler for consul Alert
 SCHEDULER.every '5s' do
-  logger.info("Start Scheduler Consul")
+  logger.info('Start Scheduler Consul')
 
-  consulInfo = ConsulInfo.new()
+  consul_info = ConsulInfo.new
 
-  arrayCritical = consulInfo.getAllCritical
+  array_critical = consul_info.all_critical
 
-  if arrayCritical.any?
-    arrayAlertDisplay = []
-    arrayCritical.each do |alerts|
+  if array_critical.any?
+    array_alert_display = []
+    array_critical.each do |alerts|
       alerts.each do |alert|
-        hostAlert =  alert['Node']
-        checkAlert = alert['CheckID']
-        arrayAlertDisplay.push({ label: hostAlert, value: checkAlert })
+        host_alert =  alert['Node']
+        check_alert = alert['CheckID']
+        array_alert_display.push(
+          {
+            label: host_alert,
+            value: check_alert
+          }
+        )
       end
     end
-    logger.info(arrayAlertDisplay)
-    send_event('alerts', {title: 'Alarms', items: arrayAlertDisplay, status: 2})
+    logger.info(array_alert_display)
+    send_event(
+      'alerts',
+      {
+        title: 'Alarms',
+        items: array_alert_display,
+        status: 2
+      }
+    )
   else
-    send_event('alerts', {title: 'Keep calm there is no alerts', items: [], status: 0})
+    send_event(
+      'alerts',
+      {
+        title: 'Keep calm there is no alerts',
+        items: [],
+        status: 0
+      }
+    )
   end
 
-  logger.info("End Scheduler Consul")
+  logger.info('End Scheduler Consul')
 end
 
-#Scheduler for AWS Informations
-SCHEDULER.every '5m' do
-  logger.info("Start Scheduler AWS")
+# Scheduler for AWS Informations
+SCHEDULER.every '1m' do
+  logger.info('Start Scheduler AWS')
 
-  awsInfo = AwsInfo.new()
+  aws_info = AwsInfo.new
 
-  send_event('ec2number', { value: awsInfo.getNumberEc2, max: awsInfo.getEc2Limit })
+  send_event(
+    'ec2number',
+    {
+      value: aws_info.number_ec2,
+      max: aws_info.ec2_limit
+    }
+  )
 
-  logger.info("End Scheduler AWS")
+  logger.info('End Scheduler AWS')
 end
