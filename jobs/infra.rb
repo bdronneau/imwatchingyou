@@ -4,14 +4,9 @@ require 'logger'
 logger = Logger.new(STDOUT)
 logger.level = Logger::WARN
 
+# Scheduler for consul Alert
 SCHEDULER.every '5s' do
   logger.info("Start Scheduler Consul")
-
-  awsInfo = AwsInfo.new()
-
-  allS3 = awsInfo.listS3
-
-  numberS3 = awsInfo.getNumberBucketS3
 
   consulInfo = ConsulInfo.new()
 
@@ -32,7 +27,16 @@ SCHEDULER.every '5s' do
     send_event('alerts', {title: 'Keep calm there is no alerts', items: [], status: 0})
   end
 
+  logger.info("End Scheduler Consul")
+end
+
+#Scheduler for AWS Informations
+SCHEDULER.every '5m' do
+  logger.info("Start Scheduler AWS")
+
+  awsInfo = AwsInfo.new()
+
   send_event('ec2number', { value: awsInfo.getNumberEc2, max: awsInfo.getEc2Limit })
 
-  logger.info("End Scheduler Consul")
+  logger.info("End Scheduler AWS")
 end
