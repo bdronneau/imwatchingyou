@@ -1,11 +1,10 @@
 require 'yaml'
 
+# This load config/config.yml
 class ConfigApp
-  def initialize
-    @params = YAML::load_file(File.join(__dir__, '..' ,'config' ,'config.yml'))
-  end
+  attr_reader :params
 
-  def params
-    @params
+  def initialize
+    @params = YAML.load_file(File.join(__dir__, '..', 'config', 'config.yml'))
   end
 end
