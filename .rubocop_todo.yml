@@ -1,0 +1,31 @@
+# Offense count: 160
+Metrics/AbcSize:
+  Max: 32
+
+# Offense count: 13
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 141
+
+# Offense count: 42
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Offense count: 160
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 18
+
+# Offense count: 7
+# Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Max: 164
+
+# Offense count: 23
+Metrics/PerceivedComplexity:
+  Max: 11
+
+AllCops:
+  Include:
+    - 'lib/**'
+    - 'jobs/**'
