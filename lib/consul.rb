@@ -12,10 +12,16 @@ class ConsulInfo
 
   def getAllCritical
     errors = Array.new
+    commonFunction = Common.new()
     @conf.params['consul']['servers'].each do |server|
-      response = JSON.parse(RestClient.get "#{server}/v1/health/state/critical")
-      if response.any?
-        errors.push(response)
+      if commonFunction.checkPortIsOpen?(server.last['name'], server.last['port'], 3)
+        nameToCheck = "#{server.last['protocol']}#{server.last['name']}:#{server.last['port']}"
+        response = JSON.parse(RestClient.get "#{nameToCheck}/v1/health/state/critical")
+        if response.any?
+          errors.push(response)
+        end
+      else
+        errors.push([{"Node"=>"#{server.first}", "CheckID"=>"Unreachable Agent"}])
       end
     end
     errors
