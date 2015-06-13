@@ -6,11 +6,7 @@ class UptimeRobot
     @conf = ConfigApp.new
   end
 
-  def all_graph
-    points = []
-    monitor_down = []
-    data = []
-
+  def construct_url
     api_url = 'http://api.uptimerobot.com'
 
     parameters = [
@@ -24,9 +20,16 @@ class UptimeRobot
 
     url = "#{api_url}/getMonitors?#{parameters.join('&')}"
 
+    url
+  end
+
+  def all_monitors
+    data = []
+
     response = JSON.parse(
-        RestClient.get url
+        RestClient.get construct_url
     )
+
     response['monitors']['monitor'].each do |monitor|
       data.push(graph_data(monitor))
     end
