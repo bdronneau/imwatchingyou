@@ -56,9 +56,9 @@ SCHEDULER.every '1m' do
   )
 
   send_event(
-      'rdsnumber',
-      value: aws_info.number_rds,
-      max: aws_info.rds_limit
+    'rdsnumber',
+    value: aws_info.number_rds,
+    max: aws_info.rds_limit
   )
 
   logger.info('End Scheduler AWS')

@@ -83,9 +83,7 @@ class AwsInfo
     limit = 0
     resp = rds.describe_account_attributes
     resp['account_quotas'].each do |value|
-      if value['account_quota_name'].eql? 'DBInstances'
-        limit = value['max']
-      end
+      limit = value['max'] if value['account_quota_name'].eql? 'DBInstances'
     end
     limit
   end
