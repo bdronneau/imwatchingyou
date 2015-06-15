@@ -10,24 +10,22 @@ class UptimeRobot
     api_url = 'http://api.uptimerobot.com'
 
     parameters = [
-        "apiKey=#{@conf.params['uptimerobot']['token']}",
-        'responseTimesAverage=30',
-        'responseTimes=1',
-        'customUptimeRatio=30',
-        'format=json',
-        'noJsonCallback=1'
+      "apiKey=#{@conf.params['uptimerobot']['token']}",
+      'responseTimesAverage=30',
+      'responseTimes=1',
+      'customUptimeRatio=30',
+      'format=json',
+      'noJsonCallback=1'
     ]
 
-    url = "#{api_url}/getMonitors?#{parameters.join('&')}"
-
-    url
+    "#{api_url}/getMonitors?#{parameters.join('&')}"
   end
 
   def all_monitors
     data = []
 
     response = JSON.parse(
-        RestClient.get construct_url
+      RestClient.get construct_url
     )
 
     response['monitors']['monitor'].each do |monitor|
@@ -41,14 +39,14 @@ class UptimeRobot
     last_x = 1
     total_value = 0
 
-    monitor['responsetime'].reverse.each do |value|
-      points.push({ x: last_x, y: value['value'].to_i })
+    monitor['responsetime'].reverse_each do |value|
+      points.push(x: last_x, y: value['value'].to_i)
 
       total_value += value['value'].to_i
       last_x += 1
     end
 
-    points.push({ x: last_x + 1, y: total_value / last_x })
+    points.push(x: last_x + 1, y: total_value / last_x)
   end
 
   def random_monitor

@@ -66,7 +66,11 @@ SCHEDULER.every '10s' do
 
   monitor = uptimerobot.random_monitor
 
-  send_event('uptimerobot', { points: monitor[0] , title: monitor[1]})
+  send_event(
+    'uptimerobot',
+    points: monitor[0],
+    title: monitor[1]
+  )
 
   logger.info('End Scheduler UptimeRobot')
 end
