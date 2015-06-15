@@ -20,12 +20,7 @@ class AwsInfo
 
   def number_bucket_s3
     s3 = Aws::S3::Client.new(region: @region, credentials: @credentials)
-    number_bucket = 0
-    s3.list_buckets.buckets.each do
-      number_bucket += 1
-    end
-
-    number_bucket
+    s3.list_buckets.buckets.length
   end
 
   def number_ec2
@@ -33,9 +28,7 @@ class AwsInfo
     list_ec2 = ec2.describe_instances
     number_ec2 = 0
     list_ec2.reservations.each do |reservation|
-      reservation.instances.each do
-        number_ec2 += 1
-      end
+      number_ec2 += reservation.instances.length
     end
     number_ec2
   end
@@ -54,9 +47,7 @@ class AwsInfo
 
     number_ec2 = 0
     list_ec2.reservations.each do |reservation|
-      reservation.instances.each do
-        number_ec2 += 1
-      end
+      number_ec2 += reservation.instances.length
     end
     number_ec2
   end
@@ -70,6 +61,6 @@ class AwsInfo
     resp.account_attributes.each do |element|
       max_ec2 = element.attribute_values.each.next.attribute_value
     end
-    max_ec2
+    max_ec2.to_i
   end
 end
