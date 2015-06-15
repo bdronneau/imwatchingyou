@@ -59,12 +59,14 @@ SCHEDULER.every '1m' do
 end
 
 # Scheduler for UptimeRobot graph
-SCHEDULER.every '5s' do
+SCHEDULER.every '10s' do
   logger.info('Start Scheduler UptimeRobot')
 
   uptimerobot = UptimeRobot.new
 
-  uptimerobot.all_graph
+  monitor = uptimerobot.random_monitor
+
+  send_event('uptimerobot', { points: monitor[0] , title: monitor[1]})
 
   logger.info('End Scheduler UptimeRobot')
 end
