@@ -2,7 +2,18 @@ require 'pp'
 require 'logger'
 
 logger = Logger.new(STDOUT)
-logger.level = Logger::WARN
+case ConfigApp.new.params['log']['level']
+when 'fatal'
+  logger.level = Logger::FATAL
+when 'error'
+  logger.level = Logger::ERROR
+when 'warning'
+  logger.level = Logger::WARN
+when 'info'
+  logger.level = Logger::INFO
+when 'debug'
+  logger.level = Logger::DEBUG
+end
 
 # Scheduler for consul Alert
 SCHEDULER.every '5s' do
