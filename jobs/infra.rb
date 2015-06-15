@@ -57,3 +57,20 @@ SCHEDULER.every '1m' do
 
   logger.info('End Scheduler AWS')
 end
+
+# Scheduler for UptimeRobot graph
+SCHEDULER.every '10s' do
+  logger.info('Start Scheduler UptimeRobot')
+
+  uptimerobot = UptimeRobot.new
+
+  monitor = uptimerobot.random_monitor
+
+  send_event(
+    'uptimerobot',
+    points: monitor[0],
+    title: monitor[1]
+  )
+
+  logger.info('End Scheduler UptimeRobot')
+end

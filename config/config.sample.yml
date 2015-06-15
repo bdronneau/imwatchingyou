@@ -11,3 +11,5 @@ consul:
       name: localhost
       port:
       protocol: http://
+uptimerobot:
+  token:
