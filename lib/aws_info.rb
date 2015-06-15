@@ -72,4 +72,19 @@ class AwsInfo
     end
     max_ec2
   end
+
+  def number_rds
+    rds = Aws::RDS::Client.new(region: @region, credentials: @credentials)
+    rds.describe_db_instances.db_instances.length
+  end
+
+  def rds_limit
+    rds = Aws::RDS::Client.new(region: @region, credentials: @credentials)
+    limit = 0
+    resp = rds.describe_account_attributes
+    resp['account_quotas'].each do |value|
+      limit = value['max'] if value['account_quota_name'].eql? 'DBInstances'
+    end
+    limit
+  end
 end
