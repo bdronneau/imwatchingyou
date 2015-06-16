@@ -9,12 +9,6 @@ var gulpIgnore = require('gulp-ignore');
 
 var filesJSToScan =  (argv.js ? argv.js : 'src/**/*.js');
 var filesJSToIgnore = [
-    '**/*jquery*',
-    '**/*min*',
-    '**/wowslider*',
-    '**/wowSlider/engine1/script.js',
-    '**/js/bootstrap.js',
-    '**/js/wowSliderForm.js'
 ];
 
 gulp.task('jscs', function () {
