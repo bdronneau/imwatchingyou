@@ -9,9 +9,9 @@ aws:
   secret:
 consul:
   servers:
-    MyNameServer:
-      name: localhost
-      port:
+    MyNameServer: #(comment to delete) This name is display when agent is unreachable
+      name: localhost|fqdn
+      port: 8500
       protocol: http://
 uptimerobot:
   token:
