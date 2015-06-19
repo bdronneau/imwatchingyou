@@ -86,7 +86,7 @@ SCHEDULER.every '10s' do
   send_event(
     'uptimerobot',
     points: monitor[0],
-    title: monitor[1]
+    title: monitor[1] + ' (ms)'
   )
 
   logger.info('End Scheduler UptimeRobot')
