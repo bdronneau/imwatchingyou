@@ -1,5 +1,6 @@
 # imwatchingyou
 [![Code Climate](https://codeclimate.com/github/basti1dr/imwatchingyou/badges/gpa.svg)](https://codeclimate.com/github/basti1dr/imwatchingyou) [![Dependency Status](https://gemnasium.com/basti1dr/imwatchingyou.svg)](https://gemnasium.com/basti1dr/imwatchingyou)
+[![Stories in Ready](https://badge.waffle.io/basti1dr/imwatchingyou.svg?label=ready&title=Ready)](http://waffle.io/basti1dr/imwatchingyou)
 
 ## Install
 ### Gems
