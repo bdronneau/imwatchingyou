@@ -4,3 +4,6 @@ history.yml
 
 # NodeJS
 node_modules/
+
+# Private certs
+config/certs
