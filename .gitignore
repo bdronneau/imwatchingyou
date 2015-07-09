@@ -7,3 +7,10 @@ node_modules/
 
 # Private certs
 config/certs
+
+# Cache
+*.cache
+cache/
+
+# Log (daemon)
+log/
