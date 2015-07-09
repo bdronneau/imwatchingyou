@@ -1,6 +1,6 @@
 # I'm watching You
 [![Code Climate](https://codeclimate.com/github/basti1dr/imwatchingyou/badges/gpa.svg)](https://codeclimate.com/github/basti1dr/imwatchingyou) [![Dependency Status](https://gemnasium.com/basti1dr/imwatchingyou.svg)](https://gemnasium.com/basti1dr/imwatchingyou)
-[![Stories in Ready](https://badge.waffle.io/basti1dr/imwatchingyou.svg?label=ready&title=Ready)](http://waffle.io/basti1dr/imwatchingyou)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/?branch=master)
 
 ## Install
 ### Gems
