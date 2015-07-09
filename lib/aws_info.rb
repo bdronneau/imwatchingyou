@@ -33,7 +33,7 @@ class AwsInfo
     number_ec2
   end
 
-  def number_ec2_by_stage(stage) # rubocop:disable Metrics/MethodLength
+  def number_ec2_by_stage(stage)
     ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
     list_ec2 = ec2.describe_instances(
       filters: [
@@ -83,5 +83,4 @@ class AwsInfo
     elb = Aws::ElasticLoadBalancing::Client.new(region: @region, credentials: @credentials)
     elb.describe_load_balancers.load_balancer_descriptions.length
   end
-
 end

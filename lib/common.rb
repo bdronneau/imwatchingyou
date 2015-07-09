@@ -4,7 +4,6 @@ require 'pp'
 # This class contains general and reusable methods
 class Common
   # http://hibberttech.blogspot.fr/2013/05/ruby-check-if-port-is-open.html
-  # rubocop:disable Metrics/MethodLength
   def check_port_is_open?(ip, port, timeout)
     start_time = Time.now
     current_time = start_time
