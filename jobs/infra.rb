@@ -72,6 +72,12 @@ SCHEDULER.every '1m' do
     max: aws_info.rds_limit
   )
 
+  send_event(
+      'elbnumber',
+      value: aws_info.number_elb,
+      max: '20'
+  )
+
   logger.info('End Scheduler AWS')
 end
 

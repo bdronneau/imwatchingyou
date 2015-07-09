@@ -78,4 +78,10 @@ class AwsInfo
     end
     limit
   end
+
+  def number_elb
+    elb = Aws::ElasticLoadBalancing::Client.new(region: @region, credentials: @credentials)
+    elb.describe_load_balancers.load_balancer_descriptions.length
+  end
+
 end
