@@ -15,6 +15,9 @@ when 'debug'
   logger.level = Logger::DEBUG
 end
 
+# Init variables
+ga_user = 0
+
 # Scheduler for consul Alert
 SCHEDULER.every '5s' do
   logger.info('Start Scheduler Consul')
@@ -96,4 +99,21 @@ SCHEDULER.every '10s' do
   )
 
   logger.info('End Scheduler UptimeRobot')
+end
+
+# Scheduler for Google Analytics
+SCHEDULER.every '30s' do
+  logger.info('Start Scheduler Google Analytics')
+
+  ga = GoogleAnalytics.new
+
+  previous_ga_user = ga_user
+  ga_user = ga.realtime_users
+
+  send_event(
+    'ga_users_realtime',
+    current: ga_user,
+    last: previous_ga_user
+  )
+  logger.info('End Scheduler Google Analytics')
 end
