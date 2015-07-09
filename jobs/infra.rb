@@ -111,7 +111,7 @@ SCHEDULER.every '30s' do
   ga_user = ga.realtime_users
 
   send_event(
-    'ga_users_realtime',
+    'gausersrealtime',
     current: ga_user,
     last: previous_ga_user
   )
