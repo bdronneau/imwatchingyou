@@ -11,7 +11,7 @@ class ConsulInfo
     @conf = ConfigApp.new
   end
 
-  def all_critical # rubocop:disable Metrics/MethodLength
+  def all_critical
     errors = []
     common_function = Common.new
     @conf.params['consul']['servers'].each do |server|
@@ -40,9 +40,7 @@ class ConsulInfo
   end
 
   def alarms(server, errors)
-    # rubocop:disable Metrics/LineLength
     name_to_check = "#{server.last['protocol']}#{server.last['name']}:#{server.last['port']}"
-    # rubocop:enable Metrics/LineLength
 
     response = JSON.parse(
       RestClient.get "#{name_to_check}/v1/health/state/critical"
