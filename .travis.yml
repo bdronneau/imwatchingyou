@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.0.0-p481
+  - 2.0.0
+before_script:
+  - npm install
+script:
+  - bundle exec rubocop
+  - node_modules/gulp/bin/gulp.js
