@@ -75,6 +75,6 @@ class GoogleAnalytics
       }
     )
 
-    visit_count.data.rows[0][0]
+    visit_count.data.rows[0][0].to_i
   end
 end
