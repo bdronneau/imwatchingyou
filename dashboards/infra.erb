@@ -1,9 +1,3 @@
-<script type='text/javascript'>
-  $(function() {
-    Dashing.gridsterLayout('[{"col":1,"row":1,"size_x":2,"size_y":3},{"col":3,"row":2,"size_x":1,"size_y":1},{"col":4,"row":3,"size_x":1,"size_y":1},{"col":4,"row":2,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":2,"size_y":1},{"col":3,"row":3,"size_x":1,"size_y":1}]')
-  });
-</script>
-
 <% content_for :title do %>Infra Dashboard<% end %>
 <div class="gridster">
   <ul>
@@ -11,24 +5,28 @@
       <div data-id="alerts" data-view="Listdynamicbckg" data-title="Hello" data-text="Plop" data-moreinfo="Source : Consul"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="ec2number" data-view="Meter" data-title="Ec2" data-min="0" data-max="100"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
       <div data-id="rdsnumber" data-view="Meter" data-title="RDS" data-min="0" data-max="50"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="3" data-col="4" data-sizex="1" data-sizey="1">
       <div data-id="elbnumber" data-view="Meter" data-title="ELB" data-min="0" data-max="50"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+    <li data-row="1" data-col="3" data-sizex="2" data-sizey="1">
       <div data-id="uptimerobot" data-view="Graph" data-title="Graph" data-min="0" data-max="100"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="3" data-col="3" data-sizex="1" data-sizey="1">
       <div data-id="gausersrealtime" data-view="Number" data-title="RealTime interencheres.com" data-prefix=""></div>
+    </li>
+
+    <li data-row="4" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="countdownie3"  data-view="Countdown" data-title="IE3 is our" data-end=""></div>
     </li>
 
   </ul>
