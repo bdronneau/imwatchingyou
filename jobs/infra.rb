@@ -19,11 +19,28 @@ end
 ga_user = 0
 
 #Init count down
-time = ConfigApp.new.params['countdown']['ie']
-send_event(
-  'countdownie3',
-  end: time
-)
+config = ConfigApp.new
+#We assume countdown hash in config is present
+if config.params['countdown'].include? 'ie'
+  if config.params['countdown']['ie']['enable']
+    send_event(
+      'countdownie3',
+      end: config.params['countdown']['ie']['date']
+    )
+  else
+    send_event(
+      'countdownie3',
+      title: 'Countdown IE3 disable',
+      end: ''
+    )
+  end
+else
+  send_event(
+    'countdownie3',
+    title: 'Countdown IE3 have no parameters',
+    end: ''
+  )
+end
 
 # Scheduler for consul Alert
 SCHEDULER.every '5s' do
