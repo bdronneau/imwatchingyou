@@ -18,6 +18,13 @@ end
 # Init variables
 ga_user = 0
 
+#Init count down
+time = ConfigApp.new.params['countdown']['ie']
+send_event(
+  'countdownie3',
+  end: time
+)
+
 # Scheduler for consul Alert
 SCHEDULER.every '5s' do
   logger.info('Start Scheduler Consul')
