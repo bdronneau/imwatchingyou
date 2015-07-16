@@ -25,6 +25,7 @@ if config.params['countdown'].include? 'ie'
   if config.params['countdown']['ie']['enable']
     send_event(
       'countdownie3',
+      title: 'IE3 is ours in',
       end: config.params['countdown']['ie']['date']
     )
   else
