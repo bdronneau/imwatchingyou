@@ -44,7 +44,7 @@ else
 end
 
 # Scheduler for consul Alert
-SCHEDULER.every '5s' do
+SCHEDULER.every config.params['scheduler']['consul'] do
   logger.info('Start Scheduler Consul')
 
   consul_info = ConsulInfo.new
@@ -83,7 +83,7 @@ SCHEDULER.every '5s' do
 end
 
 # Scheduler for AWS Informations
-SCHEDULER.every '1m' do
+SCHEDULER.every config.params['scheduler']['aws'] do
   logger.info('Start Scheduler AWS')
 
   aws_info = AwsInfo.new
@@ -110,7 +110,7 @@ SCHEDULER.every '1m' do
 end
 
 # Scheduler for UptimeRobot graph
-SCHEDULER.every '10s' do
+SCHEDULER.every config.params['scheduler']['uptimerobot'] do
   logger.info('Start Scheduler UptimeRobot')
 
   uptimerobot = UptimeRobot.new
@@ -127,7 +127,7 @@ SCHEDULER.every '10s' do
 end
 
 # Scheduler for Google Analytics
-SCHEDULER.every '30s' do
+SCHEDULER.every config.params['scheduler']['ga'] do
   logger.info('Start Scheduler Google Analytics')
 
   ga = GoogleAnalytics.new

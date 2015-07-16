@@ -1,5 +1,11 @@
 log:
   level: warning|info|fatail|critical|debug
+scheduler:
+  aws: '1s'|'1m'|'1h'
+  uptimerobot: '1s'|'1m'|'1h'
+  ga: '1s'|'1m'|'1h'
+  consul: '1s'|'1m'|'1h'
+  rdashboard: '1s'|'1m'|'1h'
 github:
   user:
   default:
