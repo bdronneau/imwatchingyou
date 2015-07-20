@@ -1,0 +1,22 @@
+vagrantfile:
+    application_name: 'imwatchingyou'
+    user: 'vagrant'
+    synced_folder_guest: '/home/vagrant/imwatchingyou'
+    ruby_version: 1.9.3
+    vm:
+        box: 'debian/jessie64'
+        cpus: '1'
+        memory: '1024'
+        network:
+            private_network: 192.168.12.34
+            forwarded_port:
+                ports:
+                    host: '8080'
+                    guest: '80'
+        post_up_message: ~
+        provision:
+            puppet:
+                manifest_file: vagrant.pp
+                manifests_path: vagrantfiles/puppet/manifests
+                template_path: vagrantfiles/puppet/templates
+                options: '--verbose --debug'
