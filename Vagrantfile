@@ -20,9 +20,11 @@ Vagrant.configure(2) do |config|
     # boxes at https://atlas.hashicorp.com/search.
     config.vm.box = "#{data['vm']['box']}"
 
-    config.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--cpus", "#{data['vm']['cpus']}"]
-        v.customize ["modifyvm", :id, "--memory", "#{data['vm']['memory']}"]
+    config.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--cpus', "#{data['vm']['cpus']}"]
+        v.customize ['modifyvm', :id, '--memory', "#{data['vm']['memory']}"]
+        # https://github.com/npm/npm/issues/7308#issuecomment-84214837
+        v.customize ['setextradata', :id, 'VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant', '1']
     end
 
     config.vm.network 'private_network', ip: data['vm']['network']['private_network']
@@ -33,44 +35,27 @@ Vagrant.configure(2) do |config|
         end
     end
 
-    if !data['vm']['post_up_message'].nil?
-        config.vm.post_up_message = "#{data['vm']['post_up_message']}"
-    end
-
     if !data['synced_folder_guest'].nil?
         config.vm.synced_folder "#{cur_dir}", "#{data['synced_folder_guest']}"
     end
 
-    if !data['vm']['provision']['puppet'].nil?
-        # Install puppet to enable provisioning
-        # https://wiki.debian.org/Teams/Cloud/VagrantBaseBoxes#Provisioners
-        config.vm.provision 'shell', path: 'vagrantfiles/puppet/shell/puppet.sh'
+    # We currently only provision using shell scripts.
+    # If you want to provision using puppet, you need to install puppet itself !
+    # https://wiki.debian.org/Teams/Cloud/VagrantBaseBoxes#Provisioners
 
-        config.vm.provision :puppet do |puppet|
-
-            puppet.facter = {
-                'user'                 => "#{data['user']}",
-                'application_name'     => "#{data['application_name']}",
-                'ruby_version'         => "#{data['ruby_version']}",
-                'server_name'          => "#{data['vm']['hostname']}",
-                'port'                 => "#{data['vm']['network']['forwarded_port']['ports']['guest']}"
-            }
-
-            puppet.manifests_path = data['vm']['provision']['puppet']['manifests_path']
-            puppet.manifest_file = data['vm']['provision']['puppet']['manifest_file']
-            puppet.options = ['--templatedir', "#{data['vm']['provision']['puppet']['template_path']}"]
-            puppet.options = "#{data['vm']['provision']['puppet']['options']}"
-        end
-    end
+    config.vm.provision :shell, :path => 'vagrantfiles/shell/apt-update.sh'
+    config.vm.provision :shell, :path => 'vagrantfiles/shell/install-rvm.sh', :args => 'stable'
+    config.vm.provision :shell, :path => 'vagrantfiles/shell/install-ruby.sh', :args => "#{data['ruby_version']} bundler"
+    config.vm.provision :shell, :path => 'vagrantfiles/shell/install-nodejs.sh'
 
     # startup scripts
     config.vm.provision :shell, run: 'once' do |s|
-        s.path = 'vagrantfiles/puppet/shell/once.sh'
-        s.args = ['startup-once']
+        s.path = 'vagrantfiles/shell/once.sh'
+        s.args = ["#{data['synced_folder_guest']}"]
     end
 
     config.vm.provision :shell, run: 'always' do |s|
-        s.path = 'vagrantfiles/puppet/shell/startup.sh'
-        s.args = ['startup-always']
+        s.path = 'vagrantfiles/shell/startup.sh'
+        s.args = ["#{data['synced_folder_guest']}"]
     end
 end
