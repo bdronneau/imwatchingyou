@@ -8,7 +8,10 @@ scheduler:
   rdashboard: '1s'|'1m'|'1h'
 github:
   user:
-  default:
+  repos: {}
+  organizations: {}
+  tokens:
+    default:
 aws:
   region: eu-west-1
   access:
@@ -21,5 +24,15 @@ consul:
       protocol: http://
 uptimerobot:
   token:
+google:
+  analytics:
+    service_account_email:
+    key_file: config/certs/mycert.p12
+    key_secret:
+    profileID:
+    application_name:
+    application_version: 1.0
 countdown:
-  ie: 'Jul 26, 2015 00:00:00'
+  ie:
+    enable: true
+    date: 'Jul 26, 2015 00:00:00'
