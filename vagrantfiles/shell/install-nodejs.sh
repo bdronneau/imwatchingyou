@@ -2,8 +2,13 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-# see https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#debian-and-ubuntu-based-linux-distributions
-apt-get install curl
-curl --silent --location https://deb.nodesource.com/setup_0.12 | bash -
+# https://github.com/creationix/nvm
+NVM_DIR=/home/vagrant/.nvm; export NVM_DIR
+curl -sS -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash 2>&1 > /dev/null
+echo "source ~/.nvm/nvm.sh" >> /home/vagrant/.profile
+source /home/vagrant/.profile
 
-apt-get install --yes nodejs
+nvm install $1
+nvm alias default $1
+
+chown -R vagrant:vagrant $NVM_DIR

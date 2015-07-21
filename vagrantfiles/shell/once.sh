@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 cd $1
 
 echo "Install bundler dependencies..."
-bundle install
+bundle install --path .bundle
 
 echo "Install npm dependencies..."
 # we can't put symlinks on vagrant boxes under windows

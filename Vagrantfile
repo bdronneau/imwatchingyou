@@ -46,7 +46,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision :shell, :path => 'vagrantfiles/shell/apt-update.sh'
     config.vm.provision :shell, :path => 'vagrantfiles/shell/install-rvm.sh', :args => 'stable'
     config.vm.provision :shell, :path => 'vagrantfiles/shell/install-ruby.sh', :args => "#{data['ruby_version']} bundler"
-    config.vm.provision :shell, :path => 'vagrantfiles/shell/install-nodejs.sh'
+    config.vm.provision :shell, :path => 'vagrantfiles/shell/install-nodejs.sh', :args => "#{data['nodejs_version']}"
 
     # startup scripts
     config.vm.provision :shell, run: 'once' do |s|
