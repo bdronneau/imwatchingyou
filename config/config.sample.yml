@@ -1,5 +1,5 @@
 log:
-  level: warning|info|fatail|critical|debug
+  level: warning|info|fatal|critical|debug
 scheduler:
   aws: '1s'|'1m'|'1h'
   uptimerobot: '1s'|'1m'|'1h'
@@ -35,4 +35,4 @@ google:
 countdown:
   ie:
     enable: true
-    date: 'Jul 26, 2015 00:00:00'
+    date: 'Jul 27, 2015 00:00:00'
