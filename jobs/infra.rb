@@ -47,20 +47,32 @@ end
 SCHEDULER.every config.params['scheduler']['consul'] do
   logger.info('Start Scheduler Consul')
 
-  consul_info = ConsulInfo.new
+  consul_info = ConsulInfo.new(logger)
 
-  array_critical = consul_info.all_critical
+  array_alert = consul_info.all_critical
+  array_alert.concat consul_info.all_warnings
+  status = 0
 
-  if array_critical.any?
+  if array_alert.any?
     array_alert_display = []
-    array_critical.each do |alerts|
+    array_alert.each do |alerts|
       alerts.each do |alert|
         host_alert =  alert['Node']
         check_alert = alert['CheckID']
+        type_alert = alert['Status']
         array_alert_display.push(
           label: host_alert,
-          value: check_alert
+          value: "[#{type_alert}] #{check_alert}"
         )
+
+        case type_alert
+        when 'warning'
+          status = 1 unless status.eql? 2
+        when 'critical'
+          status = 2
+        else
+          status = 0
+        end
       end
     end
     logger.info(array_alert_display)
@@ -68,14 +80,14 @@ SCHEDULER.every config.params['scheduler']['consul'] do
       'alerts',
       title: 'Alarms',
       items: array_alert_display,
-      status: 2
+      status: status
     )
   else
     send_event(
       'alerts',
       title: 'Keep calm there is no alerts',
       items: [],
-      status: 0
+      status: status
     )
   end
 
