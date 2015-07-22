@@ -5,6 +5,19 @@
 
 
 ## Install
+### Vagrant
+You can build a virtual machine which will contain all required dependencies to ease development on your machine. You'll
+need:
+- [virtualbox](https://www.virtualbox.org/wiki/Downloads)
+- [vagrant](http://www.vagrantup.com/downloads.html)
+
+Then, you will just have to type `vagrant up` to install and initialize the machine the subsequent times.
+You can also access the machine by typing `vagrant ssh` if you need an access to the generated virtual machine.
+
+NB : The `Vagrantfile` is based on the official [jessie debian box](https://atlas.hashicorp.com/debian/boxes/jessie64).
+It will load the configuration which can be found in `vagrantfiles/config.yaml`. Note that the application can be accessible over
+`192.168.12.34:3030` by default.
+
 ### Gems
 ```bash
 bundle install

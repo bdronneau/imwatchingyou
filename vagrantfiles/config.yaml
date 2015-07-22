@@ -1,0 +1,14 @@
+vagrantfile:
+    synced_folder_guest: '/home/vagrant/imwatchingyou'
+    nodejs_version: 0.12
+    ruby_version: 2.0.0
+    vm:
+        box: 'debian/jessie64'
+        cpus: '1'
+        memory: '1024'
+        network:
+            private_network: 192.168.12.34
+            forwarded_port:
+                ports:
+                    guest: '3030'
+                    host: '3030'
