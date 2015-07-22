@@ -24,7 +24,7 @@ class ConsulInfo
       )
         errors = alarms(server, errors)
       else
-        errors = agent_unreachable(server.first, errors)
+        errors = agent_unreachable(server, errors)
       end
     end
     errors
@@ -47,11 +47,13 @@ class ConsulInfo
     warns
   end
 
-  def agent_unreachable(server_name, errors)
+  def agent_unreachable(server, errors)
+    name_check = "#{server.last['protocol']}#{server.last['name']}:#{server.last['port']}"
     no_data_from_agent = [
       {
-        'Node' => "#{server_name}",
-        'CheckID' => 'Unreachable Agent'
+        'Node' => "#{server.first}",
+        'CheckID' => "Unreachable Agent on #{name_check}",
+        'Status' => 'critical'
       }
     ]
     errors.push(no_data_from_agent)
