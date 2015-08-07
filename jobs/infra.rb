@@ -17,6 +17,9 @@ end
 
 # Init variables
 ga_user = 0
+github_pr = 0
+github_repos = 0
+github_token = 0
 
 #Init count down
 config = ConfigApp.new
@@ -153,4 +156,40 @@ SCHEDULER.every config.params['scheduler']['ga'] do
     last: previous_ga_user
   )
   logger.info('End Scheduler Google Analytics')
+end
+
+# Scheduler for github
+SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
+  logger.info('Start Scheduler Github')
+
+  github = GithubInfo.new
+
+  previous_github_repos = github_repos
+  github_repos = github.list_orgas_repos.length
+
+  previous_github_pr = github_pr
+  github_pr = github.list_orgas_pr.length
+
+  previous_github_token = github_token
+  github_token = github.token_left
+
+  send_event(
+      'githubtoken',
+      current: github_token,
+      last: previous_github_token
+  )
+
+  send_event(
+      'githubpr',
+      current: previous_github_pr,
+      last: github_pr
+  )
+
+  send_event(
+      'githubrepos',
+      current: github_repos,
+      last: previous_github_repos
+  )
+
+  logger.info('End Scheduler Github')
 end
