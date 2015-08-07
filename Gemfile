@@ -8,4 +8,4 @@ gem 'pry'
 gem 'rest-client'
 gem 'rubocop'
 gem 'google-api-client', '~> 0.8'
-gem "octokit", "~> 3.8"
+gem "octokit", "~> 4.0"

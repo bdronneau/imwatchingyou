@@ -93,7 +93,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.0.0)
     netrc (0.10.3)
-    octokit (3.8.0)
+    octokit (4.0.1)
       sawyer (~> 0.6.0, >= 0.5.3)
     parser (2.3.0.pre.2)
       ast (>= 1.1, < 3.0)
@@ -182,7 +182,7 @@ DEPENDENCIES
   dashing
   google-api-client (~> 0.8)
   json (~> 1.8)
-  octokit (~> 3.8)
+  octokit (~> 4.0)
   pry
   rest-client
   rubocop
