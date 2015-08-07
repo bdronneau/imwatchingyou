@@ -95,7 +95,7 @@ SCHEDULER.every config.params['scheduler']['consul'] do
 end
 
 # Scheduler for AWS Informations
-SCHEDULER.every config.params['scheduler']['aws'] do
+SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   logger.info('Start Scheduler AWS')
 
   aws_info = AwsInfo.new
