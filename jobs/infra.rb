@@ -21,24 +21,24 @@ ga_user = 0
 #Init count down
 config = ConfigApp.new
 #We assume countdown hash in config is present
-if config.params['countdown'].include? 'ie'
-  if config.params['countdown']['ie']['enable']
+if config.params['countdown'].include? 'ws'
+  if config.params['countdown']['ws']['enable']
     send_event(
-      'countdownie3',
-      title: 'IE3 is ours in',
-      end: config.params['countdown']['ie']['date']
+      'countdownws',
+      title: 'WS is ours in',
+      end: config.params['countdown']['ws']['date']
     )
   else
     send_event(
-      'countdownie3',
-      title: 'Countdown IE3 disable',
+      'countdownws',
+      title: 'Countdown WS disable',
       end: ''
     )
   end
 else
   send_event(
-    'countdownie3',
-    title: 'Countdown IE3 have no parameters',
+    'countdownws',
+    title: 'Countdown WS have no parameters',
     end: ''
   )
 end
