@@ -1,5 +1,6 @@
 # I'm watching You
-[![Build Status](https://travis-ci.org/basti1dr/imwatchingyou.svg?branch=master)](https://travis-ci.org/basti1dr/imwatchingyou)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/?branch=master)
+[![Build Status](https://travis-ci.org/basti1dr/imwatchingyou.svg?branch=master)](https://travis-ci.org/basti1dr/imwatchingyou)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/?branch=master)
 [![Dependency Status](https://gemnasium.com/basti1dr/imwatchingyou.svg)](https://gemnasium.com/basti1dr/imwatchingyou)
 [![Code Climate](https://codeclimate.com/github/basti1dr/imwatchingyou/badges/gpa.svg)](https://codeclimate.com/github/basti1dr/imwatchingyou)
 
