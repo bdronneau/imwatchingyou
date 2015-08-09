@@ -54,3 +54,6 @@ node_modules/gulp/bin/gulp.js --js path_to_file
 ```bash
 bundle exec rubocop
 ```
+
+## Credits
+  * Engine : [Dashing](http://dashing.io/)
