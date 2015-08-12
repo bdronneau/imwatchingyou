@@ -6,6 +6,7 @@ scheduler:
   ga: '1s'|'1m'|'1h'
   consul: '1s'|'1m'|'1h'
   rdashboard: '1s'|'1m'|'1h'
+  github: '1s'|'1m'|'1h'
 github:
   user:
   repos: {}
