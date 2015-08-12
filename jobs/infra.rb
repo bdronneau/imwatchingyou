@@ -188,8 +188,8 @@ SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
 
   send_event(
       'githubpr',
-      current: previous_github_pr,
-      last: github_pr
+      current: github_pr,
+      last: previous_github_pr
   )
 
   send_event(
