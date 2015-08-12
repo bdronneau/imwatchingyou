@@ -24,9 +24,9 @@ class GithubInfo
     repos
   end
 
-  def list_orgas_pr
+  def list_pr(list_repos)
     prs = []
-    repos = list_orgas_repos
+    repos = list_repos
     repos.each do |repo|
       Octokit.pull_requests(repo[:full_name]).each do |pr|
         prs.push({:title => pr['title']})
