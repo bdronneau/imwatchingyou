@@ -165,13 +165,20 @@ SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
   github = GithubInfo.new
 
   previous_github_repos = github_repos
-  github_repos = github.list_orgas_repos.length
+  github_repos_list = github.list_orgas_repos
+  github_repos = github_repos_list.length
+
+  logger.debug("Github : Number Repos : #{github_repos}")
 
   previous_github_pr = github_pr
-  github_pr = github.list_orgas_pr.length
+  github_pr = (github.list_pr github_repos_list).length
+
+  logger.debug("Github : Number PR : #{github_pr}")
 
   previous_github_token = github_token
   github_token = github.token_left
+
+  logger.debug("Github : Number Token : #{github_token}")
 
   send_event(
       'githubtoken',
@@ -181,8 +188,8 @@ SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
 
   send_event(
       'githubpr',
-      current: previous_github_pr,
-      last: github_pr
+      current: github_pr,
+      last: previous_github_pr
   )
 
   send_event(
