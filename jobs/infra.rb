@@ -21,6 +21,9 @@ github_pr = 0
 github_repos = 0
 github_token = 0
 
+# Init github object for enble octokit caching
+github = GithubInfo.new
+
 #Init count down
 config = ConfigApp.new
 #We assume countdown hash in config is present
@@ -161,8 +164,6 @@ end
 # Scheduler for github
 SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
   logger.info('Start Scheduler Github')
-
-  github = GithubInfo.new
 
   previous_github_repos = github_repos
   github_repos_list = github.list_orgas_repos
