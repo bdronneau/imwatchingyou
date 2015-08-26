@@ -92,12 +92,19 @@ SCHEDULER.every config.params['scheduler']['consul'] do
     )
   else
     gif = GifMe.new
+    post = gif.lesjoiesdusysadmin
+
+    logger.debug("Alerts Gif :
+      -> Title : #{post[0]}
+      -> URL : #{post[1]}
+    ")
+
     send_event(
       'alerts',
-      title: gif.lesjoiesdusysadmin[0],
+      title: post[0],
       items: [],
       status: status,
-      image: gif.lesjoiesdusysadmin[1]
+      image: post[1]
     )
   end
 
