@@ -18,7 +18,7 @@ Metrics/LineLength:
 # Offense count: 2
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 14
+  Max: 50
 
 # Offense count: 9
 # Cop supports --auto-correct.
@@ -149,3 +149,9 @@ AllCops:
   Include:
     - 'lib/**'
     - 'jobs/**'
+
+Metrics/ClassLength:
+  Max : 150
+
+Metrics/AbcSize:
+  Max : 30
