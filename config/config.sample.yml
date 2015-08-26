@@ -17,6 +17,7 @@ aws:
   region: eu-west-1
   access:
   secret:
+  accounts : {}
 consul:
   servers:
     MyNameServer: #(comment to delete) This name is display when agent is unreachable

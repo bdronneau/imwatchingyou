@@ -20,6 +20,7 @@ ga_user = 0
 github_pr = 0
 github_repos = 0
 github_token = 0
+aws_bill = 0
 
 # Init github object for enble octokit caching
 github = GithubInfo.new
@@ -106,6 +107,11 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
 
   aws_info = AwsInfo.new
 
+  aws_billing = aws_info.current_max_billing_value
+  previous_aws_bill = aws_bill
+  aws_bill = aws_billing[1]
+  logger.debug("AWS : Billing update at #{aws_billing[0]}, value : #{aws_billing[1]}")
+
   send_event(
     'ec2number',
     value: aws_info.number_ec2,
@@ -122,6 +128,14 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
       'elbnumber',
       value: aws_info.number_elb,
       max: '20'
+  )
+
+  send_event(
+    'billaws',
+    title: 'Facture AWS (estimation)',
+    moreinfo: "#{aws_billing[0]}",
+    current: aws_billing[1],
+    last: previous_aws_bill
   )
 
   logger.info('End Scheduler AWS')
