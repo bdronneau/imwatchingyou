@@ -150,8 +150,5 @@ AllCops:
     - 'lib/**'
     - 'jobs/**'
 
-Metrics/ClassLength:
-  Max : 150
-
 Metrics/AbcSize:
-  Max : 30
+  Max : 20
