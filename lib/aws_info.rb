@@ -83,4 +83,9 @@ class AwsInfo
     elb = Aws::ElasticLoadBalancing::Client.new(region: @region, credentials: @credentials)
     elb.describe_load_balancers.load_balancer_descriptions.length
   end
+
+  def list_cloudwatch_metric
+    cloudwatch = Aws::CloudWatch::Client.new(region: "us-east-1", credentials: @credentials)
+    cloudwatch.list_metrics()
+  end
 end
