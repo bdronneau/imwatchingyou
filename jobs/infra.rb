@@ -87,14 +87,17 @@ SCHEDULER.every config.params['scheduler']['consul'] do
       'alerts',
       title: 'Alarms',
       items: array_alert_display,
-      status: status
+      status: status,
+      image: "/assets/alarm.gif"
     )
   else
+    gif = GifMe.new
     send_event(
       'alerts',
-      title: 'Keep calm there is no alerts',
+      title: gif.lesjoiesdusysadmin[0],
       items: [],
-      status: status
+      status: status,
+      image: gif.lesjoiesdusysadmin[1]
     )
   end
 
