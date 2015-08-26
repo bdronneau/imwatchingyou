@@ -105,28 +105,35 @@ end
 SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   logger.info('Start Scheduler AWS')
 
-  aws_info = AwsInfo.new
-
-  aws_billing = aws_info.current_max_billing_value
+  cw = AwsCloudwatch.new
+  aws_billing = cw.current_max_billing_value
   previous_aws_bill = aws_bill
   aws_bill = aws_billing[1]
-  logger.debug("AWS : Billing update at #{aws_billing[0]}, value : #{aws_billing[1]}")
+
+  ec2 = AwsEc2.new
+  rds = AwsRds.new
+
+  logger.debug("AWS :
+    Billing -> update at #{aws_billing[0]}, value : #{aws_billing[1]}
+    RDS -> instances : #{rds.number_rds} / #{rds.rds_limit}
+    Ec2 -> instances : #{ec2.number_ec2} / #{ec2.ec2_limit}, elb : #{ec2.number_elb} / 20
+  ")
 
   send_event(
     'ec2number',
-    value: aws_info.number_ec2,
-    max: aws_info.ec2_limit
+    value: ec2.number_ec2,
+    max: ec2.ec2_limit
   )
 
   send_event(
     'rdsnumber',
-    value: aws_info.number_rds,
-    max: aws_info.rds_limit
+    value: rds.number_rds,
+    max: rds.rds_limit
   )
 
   send_event(
       'elbnumber',
-      value: aws_info.number_elb,
+      value: ec2.number_elb,
       max: '20'
   )
 
