@@ -10,6 +10,7 @@ class AwsInfo
     @region = @conf.params['aws']['region']
     access = @conf.params['aws']['access']
     secret = @conf.params['aws']['secret']
+    @accounts = @conf.params['aws']['accounts']
     @credentials = Aws::Credentials.new(access, secret)
   end
 
@@ -87,5 +88,46 @@ class AwsInfo
   def list_cloudwatch_metric
     cloudwatch = Aws::CloudWatch::Client.new(region: "us-east-1", credentials: @credentials)
     cloudwatch.list_metrics()
+  end
+
+  def current_max_billing_value
+    cloudwatch = Aws::CloudWatch::Client.new(region: "us-east-1", credentials: @credentials)
+
+    bill_value = 0
+
+    @accounts.each do |account|
+      bill_value = cloudwatch.get_metric_statistics(
+        {
+          namespace: "AWS/Billing", # required
+          metric_name: "EstimatedCharges", # required
+          dimensions:
+            [
+              {
+                name: "Currency", # required
+                value: "USD", # required
+              },
+              {
+                name: "LinkedAccount",
+                value: account.to_s
+              }
+            ],
+          start_time: Time.now - 86400, # required, we get on one day
+          end_time: Time.now, # required
+          period: 84600, # required
+          statistics: ["Maximum"], # required, accepts SampleCount, Average, Sum, Minimum, Maximum
+        }
+      )
+    end
+
+    result = []
+
+    if !bill_value.datapoints.any?
+      result.push('No date')
+      result.push('-1')
+    else
+      result.push(bill_value.datapoints[0].timestamp)
+      result.push(bill_value.datapoints[0].maximum)
+    end
+    result
   end
 end
