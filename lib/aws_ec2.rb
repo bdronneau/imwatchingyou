@@ -52,4 +52,43 @@ class AwsEc2 < AwsConnection
     elb = Aws::ElasticLoadBalancing::Client.new(region: @region, credentials: @credentials)
     elb.describe_load_balancers.load_balancer_descriptions.length
   end
+
+  def events_ec2
+    instances = list_instances_id
+    events = []
+
+    instances_infos = @ec2client.describe_instance_status({
+      instance_ids: instances,
+      include_all_instances: true
+    })
+    # rubocop:disable Style/Next
+    instances_infos.instance_statuses.each do |instance|
+      # rubocop:enable Style/Next
+      is_empty = !instance['events'].any?
+      unless is_empty
+        events.push(
+          [
+            {
+              'Node' => instance['instance_id'].to_s,
+              'CheckID' => "#{instance['events'][0]['code']}",
+              'Status' => 'critical'
+            }
+          ]
+        )
+      end
+    end
+
+    events
+  end
+
+  def list_instances_id
+    instances = []
+    list_ec2 = @ec2client.describe_instances
+    list_ec2.reservations.each do |reservation|
+      reservation['instances'].each do |instance|
+        instances.push(instance['instance_id'])
+      end
+    end
+    instances
+  end
 end
