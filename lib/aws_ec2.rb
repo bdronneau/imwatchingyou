@@ -7,11 +7,11 @@ require './lib/aws_connection.rb'
 class AwsEc2 < AwsConnection
   def initialize
     super
+    @ec2client = Aws::EC2::Client.new(region: @region, credentials: @credentials)
   end
 
   def number_ec2
-    ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
-    list_ec2 = ec2.describe_instances
+    list_ec2 = @ec2client.describe_instances
     number_ec2 = 0
     list_ec2.reservations.each do |reservation|
       number_ec2 += reservation.instances.length
@@ -20,8 +20,7 @@ class AwsEc2 < AwsConnection
   end
 
   def number_ec2_by_stage(stage)
-    ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
-    list_ec2 = ec2.describe_instances(
+    list_ec2 = @ec2client.describe_instances(
       filters: [
         {
           name: 'tag-value',
@@ -39,9 +38,8 @@ class AwsEc2 < AwsConnection
   end
 
   def ec2_limit
-    ec2 = Aws::EC2::Client.new(region: @region, credentials: @credentials)
     max_ec2 = ''
-    resp = ec2.describe_account_attributes(
+    resp = @ec2client.describe_account_attributes(
       attribute_names: ['max-instances']
     )
     resp.account_attributes.each do |element|
