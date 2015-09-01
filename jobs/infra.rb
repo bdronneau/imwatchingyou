@@ -21,6 +21,7 @@ github_pr = 0
 github_repos = 0
 github_token = 0
 aws_bill = 0
+ec2events = []
 
 # Init github object for enble octokit caching
 github = GithubInfo.new
@@ -58,7 +59,10 @@ SCHEDULER.every config.params['scheduler']['consul'] do
 
   array_alert = consul_info.all_critical
   array_alert.concat consul_info.all_warnings
+  array_alert.concat ec2events
   status = 0
+
+  logger.debug("Alerts : #{array_alert}")
 
   if array_alert.any?
     array_alert_display = []
@@ -123,10 +127,13 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   ec2 = AwsEc2.new
   rds = AwsRds.new
 
+  ec2events = ec2.events_ec2
+
   logger.debug("AWS :
     Billing -> update at #{aws_billing[0]}, value : #{aws_billing[1]}
     RDS -> instances : #{rds.number_rds} / #{rds.rds_limit}
     Ec2 -> instances : #{ec2.number_ec2} / #{ec2.ec2_limit}, elb : #{ec2.number_elb} / 20
+    Events -> numbers : #{ec2events.length}
   ")
 
   send_event(
