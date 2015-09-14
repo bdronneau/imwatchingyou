@@ -51,6 +51,18 @@ else
   )
 end
 
+def populate_no_alerts(enable)
+  post = [
+    'Keep calm, there is no alerts',
+    '/assets/imwatchingyou.png'
+  ]
+  if enable
+    gif = GifMe.new
+    post = gif.lesjoiesdusysadmin
+  end
+  post
+end
+
 # Scheduler for consul Alert
 SCHEDULER.every config.params['scheduler']['consul'] do
   logger.info('Start Scheduler Consul')
@@ -95,8 +107,7 @@ SCHEDULER.every config.params['scheduler']['consul'] do
       image: "/assets/alarm.gif"
     )
   else
-    gif = GifMe.new
-    post = gif.lesjoiesdusysadmin
+    post = populate_no_alerts(config.params['alarms']['gif_no_alarms']['enable'])
 
     logger.debug("Alerts Gif :
       -> Title : #{post[0]}
