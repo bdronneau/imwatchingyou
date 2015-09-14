@@ -38,3 +38,7 @@ countdown:
   ie:
     enable: true
     date: 'Jul 27, 2015 00:00:00'
+alarms:
+  gif_no_alarms:
+   enable: true
+   mode: lesjoiesdusysadmin
