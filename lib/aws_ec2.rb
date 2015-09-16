@@ -61,24 +61,28 @@ class AwsEc2 < AwsConnection
       instance_ids: instances,
       include_all_instances: true
     })
-    # rubocop:disable Style/Next
+    
     instances_infos.instance_statuses.each do |instance|
-      # rubocop:enable Style/Next
-      is_empty = !instance['events'].any?
-      unless is_empty
-        events.push(
-          [
-            {
-              'Node' => instance['instance_id'].to_s,
-              'CheckID' => "#{instance['events'][0]['code']}",
-              'Status' => 'critical'
-            }
-          ]
-        )
-      end
+      event = check_event(instance)
+      events.push(event) unless event.eql?([])
     end
-
     events
+  end
+
+  def check_event(instance)
+    event = []
+    if instance['events'].any? && !(instance['events'][0]['description'].include? "[Completed]")
+      event.push(
+        [
+          {
+            'Node' => instance['instance_id'].to_s,
+            'CheckID' => "#{instance['events'][0]['code']}",
+            'Status' => 'critical'
+          }
+        ]
+      )
+    end
+    event
   end
 
   def list_instances_id
