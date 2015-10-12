@@ -143,7 +143,8 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   logger.debug("AWS :
     Billing -> update at #{aws_billing[0]}, value : #{aws_billing[1]}
     RDS -> instances                              : #{rds.number_rds} / #{rds.rds_limit}
-    Ec2 -> instances                              : #{ec2.number_ec2} / #{ec2.ec2_limit}
+    Ec2 -> instances                              : #{ec2.number_ec2_by_status('running')} / #{ec2.ec2_limit}
+    Ec2 -> total instances                        : #{ec2.number_ec2}
     ELB                                           : #{ec2.number_elb} / 20
     Events -> numbers                             : #{ec2events.length}
   ")
