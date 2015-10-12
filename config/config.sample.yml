@@ -18,6 +18,8 @@ aws:
   access:
   secret:
   accounts : {}
+  elb:
+    limit: 20|40|60
 consul:
   servers:
     MyNameServer: #(comment to delete) This name is display when agent is unreachable

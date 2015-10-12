@@ -144,6 +144,7 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   ec2_number_running = ec2.number_ec2_by_status('running')
   ec2_limit = ec2.ec2_limit
   elb_number = ec2.number_elb
+  elb_limit = config.params['aws']['elb']['limit']
   rds_number = rds.number_rds
   rds_limit = rds.rds_limit
 
@@ -152,7 +153,7 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
     RDS -> instances                              : #{rds_number} / #{rds_limit}
     Ec2 -> instances                              : #{ec2_number_running} / #{ec2_limit}
     Ec2 -> total instances                        : #{ec2_number}
-    ELB                                           : #{elb_number} / 20
+    ELB                                           : #{elb_number} / #{elb_limit}
     Events -> numbers                             : #{ec2events.length}
   ")
 
@@ -171,7 +172,7 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
   send_event(
       'elbnumber',
       value: elb_number,
-      max: '20'
+      max: elb_limit
   )
 
   send_event(
