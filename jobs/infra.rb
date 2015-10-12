@@ -140,30 +140,37 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
 
   ec2events = ec2.events_ec2
 
+  ec2_number = ec2.number_ec2
+  ec2_number_running = ec2.number_ec2_by_status('running')
+  ec2_limit = ec2.ec2_limit
+  elb_number = ec2.number_elb
+  rds_number = rds.number_rds
+  rds_limit = rds.rds_limit
+
   logger.debug("AWS :
     Billing -> update at #{aws_billing[0]}, value : #{aws_billing[1]}
-    RDS -> instances                              : #{rds.number_rds} / #{rds.rds_limit}
-    Ec2 -> instances                              : #{ec2.number_ec2_by_status('running')} / #{ec2.ec2_limit}
-    Ec2 -> total instances                        : #{ec2.number_ec2}
-    ELB                                           : #{ec2.number_elb} / 20
+    RDS -> instances                              : #{rds_number} / #{rds_limit}
+    Ec2 -> instances                              : #{ec2_number_running} / #{ec2_limit}
+    Ec2 -> total instances                        : #{ec2_number}
+    ELB                                           : #{elb_number} / 20
     Events -> numbers                             : #{ec2events.length}
   ")
 
   send_event(
     'ec2number',
-    value: ec2.number_ec2,
-    max: ec2.ec2_limit
+    value: ec2_number_running,
+    max: ec2_limit
   )
 
   send_event(
     'rdsnumber',
-    value: rds.number_rds,
-    max: rds.rds_limit
+    value: rds_number,
+    max: rds_limit
   )
 
   send_event(
       'elbnumber',
-      value: ec2.number_elb,
+      value: elb_number,
       max: '20'
   )
 
