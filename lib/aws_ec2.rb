@@ -19,6 +19,17 @@ class AwsEc2 < AwsConnection
     number_ec2
   end
 
+  def number_ec2_by_status(status)
+    list_ec2 = @ec2client.describe_instances
+    number_ec2 = 0
+    list_ec2.reservations.each do |reservation|
+      reservation.instances.each do |instance|
+        number_ec2 += 1 if instance.state.name.eql?(status)
+      end
+    end
+    number_ec2
+  end
+
   def number_ec2_by_stage(stage)
     list_ec2 = @ec2client.describe_instances(
       filters: [
