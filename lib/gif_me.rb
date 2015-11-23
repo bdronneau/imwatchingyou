@@ -9,7 +9,7 @@ class GifMe
   def lesjoiesdusysadmin
     post = []
     random_post = Net::HTTP.get_response("lesjoiesdusysadmin.tumblr.com","/random")
-    link_url = random_post.header['location'][/(.*)\#/].gsub('#','')
+    link_url = random_post.header['location'][/(.*)\#/].gsub('#','') # rubocop:disable all
     feed = RSS::Parser.parse(
       Net::HTTP.get_response(
         URI.parse(URI.encode("#{link_url}/rss"))
