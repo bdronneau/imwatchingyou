@@ -127,7 +127,7 @@ SCHEDULER.every config.params['scheduler']['consul'] do
 end
 
 # Scheduler for AWS Informations
-SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
+SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now do
   logger.info('Start Scheduler AWS')
 
   cw = AwsCloudwatch.new
@@ -221,7 +221,7 @@ SCHEDULER.every config.params['scheduler']['ga'] do
 end
 
 # Scheduler for github
-SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
+SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now do
   logger.info('Start Scheduler Github')
 
   previous_github_repos = github_repos
