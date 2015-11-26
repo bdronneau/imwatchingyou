@@ -1,5 +1,5 @@
 # I'm watching You
-[![Build Status](https://travis-ci.org/basti1dr/imwatchingyou.svg?branch=master)](https://travis-ci.org/basti1dr/imwatchingyou)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/?branch=master)
+[![Build Status](https://travis-ci.org/bdronneau/imwatchingyou.svg?branch=refactor%2Fbadges)](https://travis-ci.org/bdronneau/imwatchingyou)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/basti1dr/imwatchingyou/?branch=master)
 [![Dependency Status](https://gemnasium.com/bdronneau/imwatchingyou.svg)](https://gemnasium.com/bdronneau/imwatchingyou)
 
 ## Install
