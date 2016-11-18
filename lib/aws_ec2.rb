@@ -105,4 +105,12 @@ class AwsEc2 < AwsConnection
     end
     instances
   end
+
+  def get_status_by_name(name)
+    f = [
+      { name: 'tag:Name', values: [ name ] }
+    ]
+    ec2 = @ec2client.describe_instances(filters: f)
+    ec2.reservations.first.instances.first.state.name
+  end
 end
