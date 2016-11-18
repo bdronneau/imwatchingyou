@@ -20,6 +20,9 @@ aws:
   accounts : {}
   elb:
     limit: 20|40|60
+  ec2_status:
+    - name: "name-aws-ec2"
+      status: "running|stopped|..."
 consul:
   servers:
     MyNameServer: #(comment to delete) This name is display when agent is unreachable

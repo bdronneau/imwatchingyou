@@ -140,6 +140,21 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now do
 
   ec2events = ec2.events_ec2
 
+  ec2_status = []
+  ec2_status_color = 0;
+
+  config.params['aws']['ec2_status'].each do |instance|
+    state = ec2.get_status_by_name(instance['name'])
+    if (state != instance['status'])
+      ec2_status_color = 2
+    end
+
+    ec2_status.push(
+      label: instance['name'],
+      value: "[#{instance['status']}] #{state}"
+    )
+  end
+
   ec2_number = ec2.number_ec2
   ec2_number_running = ec2.number_ec2_by_status('running')
   ec2_limit = ec2.ec2_limit
@@ -181,6 +196,13 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now do
     moreinfo: "#{aws_billing[0]}",
     current: aws_billing[1],
     last: previous_aws_bill
+  )
+
+  send_event(
+    'ec2status',
+    title: '[EC2] Running states: [nominal] current',
+    items: ec2_status,
+    status: ec2_status_color
   )
 
   logger.info('End Scheduler AWS')
