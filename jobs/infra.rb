@@ -26,9 +26,9 @@ ec2events = []
 # Init github object for enble octokit caching
 github = GithubInfo.new
 
-#Init count down
+# Init count down
 config = ConfigApp.new
-#We assume countdown hash in config is present
+# We assume countdown hash in config is present
 if config.params['countdown'].include? 'ws'
   if config.params['countdown']['ws']['enable']
     send_event(
