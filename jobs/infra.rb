@@ -21,13 +21,14 @@ github_pr = 0
 github_repos = 0
 github_token = 0
 aws_bill = 0
+ec2events = []
 
 # Init github object for enble octokit caching
 github = GithubInfo.new
 
-#Init count down
+# Init count down
 config = ConfigApp.new
-#We assume countdown hash in config is present
+# We assume countdown hash in config is present
 if config.params['countdown'].include? 'ws'
   if config.params['countdown']['ws']['enable']
     send_event(
@@ -50,6 +51,18 @@ else
   )
 end
 
+def populate_no_alerts(enable)
+  post = [
+    'Keep calm, there is no alerts',
+    '/assets/imwatchingyou.png'
+  ]
+  if enable
+    gif = GifMe.new
+    post = gif.lesjoiesdusysadmin
+  end
+  post
+end
+
 # Scheduler for consul Alert
 SCHEDULER.every config.params['scheduler']['consul'] do
   logger.info('Start Scheduler Consul')
@@ -58,7 +71,10 @@ SCHEDULER.every config.params['scheduler']['consul'] do
 
   array_alert = consul_info.all_critical
   array_alert.concat consul_info.all_warnings
+  array_alert.concat ec2events
   status = 0
+
+  logger.debug("Alerts : #{array_alert}")
 
   if array_alert.any?
     array_alert_display = []
@@ -87,14 +103,23 @@ SCHEDULER.every config.params['scheduler']['consul'] do
       'alerts',
       title: 'Alarms',
       items: array_alert_display,
-      status: status
+      status: status,
+      image: "/assets/alarm.gif"
     )
   else
+    post = populate_no_alerts(config.params['alarms']['gif_no_alarms']['enable'])
+
+    logger.debug("Alerts Gif :
+      -> Title : #{post[0]}
+      -> URL : #{post[1]}
+    ")
+
     send_event(
       'alerts',
-      title: 'Keep calm there is no alerts',
+      title: post[0],
       items: [],
-      status: status
+      status: status,
+      image: post[1]
     )
   end
 
@@ -102,32 +127,67 @@ SCHEDULER.every config.params['scheduler']['consul'] do
 end
 
 # Scheduler for AWS Informations
-SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
+SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now do
   logger.info('Start Scheduler AWS')
 
-  aws_info = AwsInfo.new
-
-  aws_billing = aws_info.current_max_billing_value
+  cw = AwsCloudwatch.new
+  aws_billing = cw.current_max_billing_value
   previous_aws_bill = aws_bill
   aws_bill = aws_billing[1]
-  logger.debug("AWS : Billing update at #{aws_billing[0]}, value : #{aws_billing[1]}")
+
+  ec2 = AwsEc2.new
+  rds = AwsRds.new
+
+  ec2events = ec2.events_ec2
+
+  ec2_status = []
+  ec2_status_color = 0;
+
+  config.params['aws']['ec2_status'].each do |instance|
+    state = ec2.get_status_by_name(instance['name'])
+    if (state != instance['status'])
+      ec2_status_color = 2
+    end
+
+    ec2_status.push(
+      label: instance['name'],
+      value: "[#{instance['status']}] #{state}"
+    )
+  end
+
+  ec2_number = ec2.number_ec2
+  ec2_number_running = ec2.number_ec2_by_status('running')
+  ec2_limit = ec2.ec2_limit
+  elb_number = ec2.number_elb
+  elb_limit = config.params['aws']['elb']['limit']
+  rds_number = rds.number_rds
+  rds_limit = rds.rds_limit
+
+  logger.debug("AWS :
+    Billing -> update at #{aws_billing[0]}, value : #{aws_billing[1]}
+    RDS -> instances                              : #{rds_number} / #{rds_limit}
+    Ec2 -> instances                              : #{ec2_number_running} / #{ec2_limit}
+    Ec2 -> total instances                        : #{ec2_number}
+    ELB                                           : #{elb_number} / #{elb_limit}
+    Events -> numbers                             : #{ec2events.length}
+  ")
 
   send_event(
     'ec2number',
-    value: aws_info.number_ec2,
-    max: aws_info.ec2_limit
+    value: ec2_number_running,
+    max: ec2_limit
   )
 
   send_event(
     'rdsnumber',
-    value: aws_info.number_rds,
-    max: aws_info.rds_limit
+    value: rds_number,
+    max: rds_limit
   )
 
   send_event(
       'elbnumber',
-      value: aws_info.number_elb,
-      max: '20'
+      value: elb_number,
+      max: elb_limit
   )
 
   send_event(
@@ -136,6 +196,13 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now  do
     moreinfo: "#{aws_billing[0]}",
     current: aws_billing[1],
     last: previous_aws_bill
+  )
+
+  send_event(
+    'ec2status',
+    title: '[EC2] Running states: [nominal] current',
+    items: ec2_status,
+    status: ec2_status_color
   )
 
   logger.info('End Scheduler AWS')
@@ -176,7 +243,7 @@ SCHEDULER.every config.params['scheduler']['ga'] do
 end
 
 # Scheduler for github
-SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now  do
+SCHEDULER.every config.params['scheduler']['github'], :first_at => Time.now do
   logger.info('Start Scheduler Github')
 
   previous_github_repos = github_repos
