@@ -141,13 +141,11 @@ SCHEDULER.every config.params['scheduler']['aws'], :first_at => Time.now do
   ec2events = ec2.events_ec2
 
   ec2_status = []
-  ec2_status_color = 0;
+  ec2_status_color = 0
 
   config.params['aws']['ec2_status'].each do |instance|
     state = ec2.get_status_by_name(instance['name'])
-    if (state != instance['status'])
-      ec2_status_color = 2
-    end
+    ec2_status_color = 2 if state != instance['status']
 
     ec2_status.push(
       label: instance['name'],

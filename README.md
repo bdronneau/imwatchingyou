@@ -29,6 +29,50 @@ npm install
 ## Configuration
 Copy ```config.sample.yml``` as ```config.yml``` and fill the sections you want to use in dashboard
 
+### Countdown
+In `config.yml`
+```yaml
+countdown:
+  myCountDown:  #Id of countdown
+    enable: true
+    date: 'Jul 27, 2015 00:00:00'
+```
+
+In `dashboard.erb`
+```ruby
+<li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+  <div data-id="idcountdown"  data-view="Countdown" data-title="Text to display" data-end=""></div>
+</li>
+```
+
+In `infra.rb`
+```ruby
+#Init count down
+config = ConfigApp.new
+#We assume countdown hash in config is present
+if config.params['countdown'].include? 'myCountDown'
+  if config.params['countdown']['myCountDown']['enable']
+    send_event(
+      'idcountdown',
+      title: 'myCountDown finish in',
+      end: config.params['countdown']['myCountDown']['date']
+    )
+  else
+    send_event(
+      'idcountdown',
+      title: 'myCountDown disable',
+      end: ''
+    )
+  end
+else
+  send_event(
+    'idcountdown',
+    title: 'myCountDown have no parameters',
+    end: ''
+  )
+end
+```
+
 ## Usage
 ```bash
 bundle exec dashing start
@@ -51,3 +95,7 @@ node_modules/gulp/bin/gulp.js --js path_to_file
 ```bash
 bundle exec rubocop
 ```
+
+## Credits
+  * Engine : [Dashing](http://dashing.io/)
+  * Countdown : https://gist.github.com/ioangogo/7b9208d0ef41c90ec322/
